@@ -1,0 +1,17 @@
+<div class="sticky top-0 z-50 bg-white shadow-md">
+    <nav x-data="{ isMobile: false, showMobileNav: false }" x-screen="isMobile = ($width < 1024)" x-cloak
+        class="container flex flex-wrap items-center justify-between py-5 lg:py-6">
+        <div class="antialiased font-medium text-md max-w-[200px] lg:w-[200px]">
+            {{ partial:layout/navigation/logo }}
+        </div>
+
+        <!-- Toggle Button (mobile) -->
+        {{ partial:layout/navigation/toggle }}
+
+        <!-- Mobile -->
+        {{ partial:layout/navigation/mobile }}
+
+        <!-- Desktop -->
+        {{ partial:layout/navigation/desktop }}
+    </nav>
+</div>
