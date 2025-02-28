@@ -5,13 +5,80 @@
             {{ partial:layout/navigation/logo }}
         </div>
 
-        <!-- Toggle Button (mobile) -->
-        {{ partial:layout/navigation/toggle }}
+        <!-- Modern Sepet Butonu (Navigasyon içinde) -->
+        <div class="ms-auto me-3 order-lg-last">
+            <a href="#" class="cart-menu-button position-relative d-flex align-items-center text-decoration-none" data-bs-toggle="modal" data-bs-target="#cartModal">
+                <div class="cart-icon-container me-2">
+                    <i class="bi bi-cart3 cart-icon"></i>
+                    <span class="cart-count-badge position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">0</span>
+                </div>
+                <span class="cart-text d-none d-lg-inline">İyilik Sepeti</span>
+            </a>
+        </div>
 
-        <!-- Mobile -->
-        {{ partial:layout/navigation/mobile }}
+        <style>
+            /* Sepet Butonu Menü Stili */
+            .cart-menu-button {
+                padding: 8px 15px;
+                color: #333;
+                transition: all 0.2s ease;
+                font-weight: 500;
+            }
 
-        <!-- Desktop -->
-        {{ partial:layout/navigation/desktop }}
+            .cart-menu-button:hover {
+                color: #2b70e4;
+            }
+
+            .cart-icon-container {
+                position: relative;
+            }
+
+            .cart-icon {
+                font-size: 22px;
+            }
+
+            .cart-count-badge {
+                font-size: 10px;
+                min-width: 18px;
+                height: 18px;
+            }
+
+            /* Sepet içerik sayısı 0 ise badge gizlenir */
+            .cart-count-badge:empty {
+                display: none;
+            }
+
+            .cart-text {
+                font-size: 15px;
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Sepet sayacını güncelle
+                updateCartBadge();
+
+                // Sepet değiştiğinde sayacı güncelle
+                document.addEventListener('cartUpdated', updateCartBadge);
+
+                function updateCartBadge() {
+                    const cart = JSON.parse(localStorage.getItem('shopping_cart')) || [];
+                    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+                    const cartBadges = document.querySelectorAll('.cart-count-badge');
+
+                    cartBadges.forEach(badge => {
+                        badge.textContent = cartCount > 0 ? cartCount : '';
+                    });
+                }
+            });
+        </script>
+
+
+
+
     </nav>
 </div>
+
+
+
+

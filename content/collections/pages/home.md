@@ -3,21 +3,49 @@ id: home
 blueprint: pages
 title: Home
 template: home
-updated_by: 5019d32a-932e-4e80-9d30-b60b20e24e87
-updated_at: 1688299523
+updated_by: 07c7bbf5-508d-40d9-b522-66481955a6f4
+updated_at: 1740758316
 blocks:
   -
     id: ljj7lhk3
     featured_post: c1c767f1-9097-4d7e-a3ae-78cce87cee82
     type: featured_post
-    enabled: true
+    enabled: false
     background_color: '#000000'
   -
-    id: ljjwxa54
-    featured_posts:
-      - 92f664b5-bb83-4bb4-94c0-adc915db3ca0
-      - cbdca493-761c-4bd9-aa3d-0930f7cd9f3b
-    type: featured_posts
+    id: m7oyf2kh
+    content:
+      -
+        type: heading
+        attrs:
+          textAlign: center
+          level: 3
+        content:
+          -
+            type: text
+            text: '#6MilyonTekYürek'
+    type: content
+    enabled: true
+  -
+    id: m7oxnbv7
+    products:
+      -
+        id: m7oxncep
+        product_image: post_7.jpg
+        product_name: asdasd
+        product_code: asdasd
+        product_description: asdasd
+        product_quantity: 1
+        product_price: '12'
+      -
+        id: m7oxryce
+        product_image: post_4.png
+        product_name: test
+        product_code: '2'
+        product_description: '123'
+        product_quantity: 1
+        product_price: '127'
+    type: urunler
     enabled: true
 show_title: false
 ---
