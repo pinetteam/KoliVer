@@ -1,0 +1,73 @@
+{{# Image Gallery Slider #}}
+{{ if gallery_images }}
+<div class="image-gallery-container my-4">
+    {{ if gallery_title }}
+    <h2 class="gallery-title mb-3">{{ gallery_title }}</h2>
+    {{ /if }}
+
+    {{ if gallery_description }}
+    <p class="gallery-description mb-4">{{ gallery_description }}</p>
+    {{ /if }}
+
+    <div id="imageGallerySlider" class="carousel slide"
+         data-bs-ride="{{ if auto_play }}carousel{{ else }}false{{ /if }}"
+         data-bs-interval="{{ interval ?? 5000 }}">
+
+        {{# Indicator dots #}}
+        {{ if show_indicators }}
+        <div class="carousel-indicators">
+            {{ gallery_images }}
+            <button type="button"
+                    data-bs-target="#imageGallerySlider"
+                    data-bs-slide-to="{{ loop:index - 1 }}"
+                    {{ if loop:first }}class="active" aria-current="true"{{ /if }}
+            aria-label="Slide {{ loop:index }}"></button>
+            {{ /gallery_images }}
+        </div>
+        {{ /if }}
+
+        {{# Slider items #}}
+        <div class="carousel-inner">
+            {{ gallery_images }}
+            <div class="carousel-item {{ if loop:first }}active{{ /if }}">
+                <img src="{{ url }}" class="d-block w-100" alt="{{ alt ?? filename }}">
+                {{ if alt }}
+                <div class="carousel-caption d-none d-md-block">
+                    <p>{{ alt }}</p>
+                </div>
+                {{ /if }}
+            </div>
+            {{ /gallery_images }}
+        </div>
+
+        {{# Controls #}}
+        {{ if show_controls }}
+        <button class="carousel-control-prev" type="button" data-bs-target="#imageGallerySlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Önceki</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#imageGallerySlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Sonraki</span>
+        </button>
+        {{ /if }}
+    </div>
+</div>
+
+{{# Responsive CSS için stil ekleme #}}
+<style>
+    .carousel-item img {
+        object-fit: cover;
+        height: 500px; /* Ayarlanabilir yükseklik */
+    }
+
+    @media (max-width: 768px) {
+        .carousel-item img {
+            height: 300px;
+        }
+    }
+</style>
+{{ else }}
+{{# Hiç resim yoksa bu kısım görünmez, sadece debug için #}}
+<!-- Galeri için resim seçilmemiş -->
+{{ /if }}

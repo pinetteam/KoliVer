@@ -1,0 +1,62 @@
+title: 'Ürün Listesi'
+fields:
+  -
+    handle: products
+    field:
+      type: grid
+      display: 'Ürünler'
+      instructions: 'Ürün bilgilerini buraya ekleyin'
+      min_rows: 0
+      add_row: 'Yeni Ürün Ekle'
+      reorderable: true
+      fields:
+        -
+          handle: product_image
+          field:
+            type: assets
+            display: 'Ürün Resmi'
+            instructions: 'Ürün için bir resim seçin'
+            container: assets
+            mode: grid
+            max_files: 1
+            required: true
+            width: 33
+        -
+          handle: product_name
+          field:
+            type: text
+            display: 'Ürün Adı'
+            instructions: 'Ürünün tam adını girin'
+            required: true
+            width: 33
+        -
+          handle: product_code
+          field:
+            type: text
+            display: 'Ürün Kodu'
+            instructions: 'Stok kodu veya ürün kodu'
+            width: 33
+        -
+          handle: product_description
+          field:
+            type: textarea
+            display: 'Açıklama'
+            instructions: 'Ürün açıklaması'
+            width: 75
+        -
+          handle: product_quantity
+          field:
+            type: integer
+            display: 'Miktar (Adet)'
+            instructions: 'Stok miktarı'
+            default: 1
+            min: 0
+            width: 25
+        -
+          handle: product_price
+          field:
+            type: text
+            display: 'Satış Fiyatı'
+            instructions: 'Ürünün satış fiyatı (örn: 149.99 ₺)'
+            required: true
+            width: 25

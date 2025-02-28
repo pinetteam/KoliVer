@@ -1,0 +1,7 @@
+title: deneme
+fields:
+  -
+    handle: title_test
+    field:
+      type: text
+      display: 'title test'

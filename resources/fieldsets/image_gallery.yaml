@@ -1,0 +1,61 @@
+title: 'Görsel Galerisi'
+fields:
+  -
+    handle: gallery_title
+    field:
+      type: text
+      display: 'Galeri Başlığı'
+      instructions: 'Galeriniz için isteğe bağlı bir başlık'
+      width: 50
+  -
+    handle: gallery_description
+    field:
+      type: textarea
+      display: 'Galeri Açıklaması'
+      instructions: 'Galeriniz için isteğe bağlı bir açıklama'
+      width: 50
+  -
+    handle: gallery_images
+    field:
+      type: assets
+      display: 'Galeri Görselleri'
+      instructions: 'Slidera eklenecek görselleri seçin'
+      container: assets
+      mode: grid
+      restrict: false
+      allow_uploads: true
+      show_filename: true
+      max_files: 20
+  -
+    handle: auto_play
+    field:
+      type: toggle
+      display: 'Otomatik Oynat'
+      instructions: 'Slider otomatik olarak geçiş yapsın mı?'
+      default: true
+      width: 33
+  -
+    handle: interval
+    field:
+      type: integer
+      display: 'Geçiş Süresi (ms)'
+      instructions: 'Görseller arasındaki geçiş süresi (milisaniye)'
+      default: 5000
+      width: 33
+      if:
+        auto_play: true
+  -
+    handle: show_controls
+    field:
+      type: toggle
+      display: 'Kontrol Butonları'
+      instructions: 'Slider kontrol butonlarını göster'
+      default: true
+      width: 33
+  -
+    handle: show_indicators
+    field:
+      type: toggle
+      display: 'Gösterge Noktaları'
+      instructions: 'Slider gösterge noktalarını göster'
+      default: true

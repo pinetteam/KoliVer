@@ -1,0 +1,39 @@
+title: 'Resimler'
+fields:
+  -
+    handle: gallery_title
+    field:
+      type: text
+      display: 'Galeri Başlığı'
+  -
+    handle: gallery_description
+    field:
+      type: textarea
+      display: 'Galeri Açıklaması'
+  -
+    handle: gallery_images
+    field:
+      type: assets
+      display: 'Galeri Görselleri'
+      container: assets
+      mode: grid
+      allow_uploads: true
+      max_files: 20
+  -
+    handle: auto_play
+    field:
+      type: toggle
+      display: 'Otomatik Oynat'
+      default: true
+  -
+    handle: interval
+    field:
+      type: integer
+      display: 'Geçiş Süresi (ms)'
+      default: 5000
+  -
+    handle: show_controls
+    field:
+      type: toggle
+      display: 'Kontrol Butonları'
+      default: true
