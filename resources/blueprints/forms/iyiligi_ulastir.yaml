@@ -34,3 +34,63 @@ tabs:
               type: select
               display: Şehir
               listable: true
+          -
+            handle: dogum_tarihi
+            field:
+              input_type: date
+              type: text
+              display: 'Doğum Tarihi'
+          -
+            handle: toplam_tutar
+            field:
+              type: text
+              display: 'Toplam Tutar'
+          -
+            handle: odeme_durumu
+            field:
+              options:
+                -
+                  key: Beklemede
+                  value: beklemede
+                -
+                  key: Onaylandı
+                  value: onaylandi
+                -
+                  key: Reddedildi
+                  value: reddedildi
+              type: select  # checkboxes yerine select
+              display: 'Ödeme Durumu'
+
+          # Kart bilgileri için yeni alanlar
+          -
+            handle: kart_no
+            field:
+              type: text
+              display: 'Kart Numarası'
+              validate:
+                - required
+          -
+            handle: kart_ay
+            field:
+              type: text
+              display: 'Kart Ay'
+              validate:
+                - required
+          -
+            handle: kart_yil
+            field:
+              type: text
+              display: 'Kart Yıl'
+              validate:
+                - required
+          -
+            handle: kart_cvv
+            field:
+              type: text
+              display: 'CVV'
+              validate:
+                - required
+actions:
+  - handle: update
+    display: Güncelle
+    authorize: true

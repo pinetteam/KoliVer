@@ -44,7 +44,10 @@ return [
     | You may customize the options within each exporter's array.
     |
     */
-
+    'submissions' => [
+        'enabled' => true,
+        'edit' => true,
+    ],
     'exporters' => [
         'csv' => [
             'class' => Statamic\Forms\Exporters\CsvExporter::class,

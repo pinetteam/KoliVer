@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Listeners\FormSubmissionListener;
 use App\Services\VakifBankOdemeService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
+use Statamic\Events\FormSubmitted;
 use Statamic\Facades\Form;
 use App\Listeners\CheckPaymentBeforeSaving;
 
@@ -23,7 +25,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         FormSubmitted::class => [
-            CheckPaymentBeforeSaving::class,
+            FormSubmissionListener::class,
         ],
     ];
 
@@ -46,25 +48,6 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Form::extend('iyiligi_ulastir', function (Submission $submission) {
-            $odemeServisi = new VakifBankOdemeService();
-            $odemeSonucu = $odemeServisi->processPayment($submission->data());
 
-            // Log kaydı ekleyelim
-            Log::info('Form işleniyor.', [
-                'form_data' => $submission->data(),
-                'payment_success' => $odemeSonucu->isSuccess(),
-                'payment_message' => $odemeSonucu->getMessage()
-            ]);
-
-            if (!$odemeSonucu->isSuccess()) {
-                Log::warning('Ödeme başarısız, form kaydedilmeyecek.', [
-                    'message' => $odemeSonucu->getMessage()
-                ]);
-                return false;
-            }
-
-            return $submission;
-        });
     }
 }

@@ -1,11 +1,38 @@
 <div class="container-fluid">
-    {{ form:iyiligi_ulastir class="my-8 needs-validation" novalidate redirect="/tesekkur-sayfasi"  store="false" }}
+    {{ form:iyiligi_ulastir class="my-8 needs-validation" novalidate  store="true"  redirect="tesekkur-sayfasi"
+    }}
     <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}">
+
+    {{ if submission:errors }}
+    <div class="alert alert-danger">
+        <h4>Ödeme İşlemi Başarısız</h4>
+
+        {{ submission:errors }}
+        <p>{{ value }}</p>
+        {{ /submission:errors }}
+
+        <div class="mt-3">
+            <a href="/odeme" class="btn btn-primary">Tekrar Dene</a>
+        </div>
+    </div>
+    {{ /if }}
+
+    {{ if submission:success }}
+    <div class="alert alert-success">
+        <h4>Ödeme Başarılı!</h4>
+        <p>İşleminiz tamamlandı.</p>
+    </div>
+    {{ /if }}
+
+    {{ if !submission:success and !submission:errors }}
+    <!-- Form içeriği -->
+    {{ /if }}
+
 
     <!-- Sepet Özeti -->
     <div class="card mb-4">
-        <div class="card-header bg-info text-white">
-            <h5 class="mb-0">Sepet Özeti</h5>
+        <div class="card-header text-white" style="background-color: #0677d8">
+            <h5 class="mb-0">Koli Özeti</h5>
         </div>
         <div class="card-body p-0" id="cart-summary">
             <!-- JavaScript ile sepet içeriği burada gösterilecek -->
@@ -41,7 +68,7 @@
         <label for="tc_kimlik" class="form-label fw-bold">TC Kimlik No</label>
         <div class="input-group">
             <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
-            <input type="text" name="tc_kimlik" id="tc_kimlik" class="form-control" pattern="[0-9]{11}">
+            <input type="text" name="tc_kimlik" id="tc_kimlik" class="form-control" maxlength="11" pattern="[0-9]{11}">
         </div>
         <div class="invalid-feedback">Lütfen geçerli bir TC Kimlik numarası giriniz.</div>
     </div>
@@ -50,16 +77,17 @@
         <label for="telefon" class="form-label fw-bold">Telefon</label>
         <div class="input-group">
             <span class="input-group-text"><i class="bi bi-phone"></i></span>
-            <input type="text" name="telefon" id="telefon" class="form-control" required>
+            <input type="text" name="telefon" id="telefon" class="form-control" required placeholder="5XX XXX XX XX" maxlength="14">
         </div>
-        <div class="invalid-feedback">Lütfen geçerli bir Telefon numarası giriniz.</div>
+        <small class="form-text text-muted">Başında 0 olmadan girin (örn: 532 123 45 67)</small>
+        <div class="invalid-feedback">Lütfen geçerli bir telefon numarası giriniz.</div>
     </div>
 
     <div class="form-group mb-4">
-        <label for="dogum_tarihi" class="form-label fw-bold">Doğum Tarihi</label>
+        <label for="mail" class="form-label fw-bold">E-Posta Adresi</label>
         <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-calendar-fill"></i></span>
-            <input type="date" name="dogum_tarihi" id="dogum_tarihi" class="form-control">
+            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+            <input type="email" name="mail" id="mail" class="form-control">
         </div>
         <div class="invalid-feedback">Lütfen geçerli bir doğum tarihi giriniz. (18 yaş üstü)</div>
     </div>
@@ -157,61 +185,157 @@
     </div>
 
     <!-- Ödeme Bilgileri Bölümü -->
-    <h4 class="mb-3 mt-5">Ödeme Bilgileri</h4>
+    <h4 class="mb-3 mt-5 fw-bold">Ödeme Bilgileri</h4>
 
-    <div class="form-group mb-4">
-        <label for="kart_no" class="form-label fw-bold">Kart Numarası</label>
-        <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
-            <input type="text" name="kart_no" id="kart_no" class="form-control"
-                   placeholder="XXXX XXXX XXXX XXXX" required maxlength="19">
-        </div>
-        <div class="invalid-feedback">Lütfen geçerli bir kart numarası giriniz.</div>
-    </div>
+    <div class="card mb-4">
+        <div class=" ">
+            <div id="payment-iframe-container">
+                <iframe
+                    id="payment-iframe"
 
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <label class="form-label fw-bold">Son Kullanma Tarihi</label>
-            <div class="row">
-                <div class="col-6">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-calendar-month"></i></span>
-                        <input type="text" name="kart_ay" id="kart_ay" class="form-control"
-                               placeholder="AA" required maxlength="2">
-                    </div>
-                    <div class="invalid-feedback">Ay giriniz</div>
-                </div>
-                <div class="col-6">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                        <input type="text" name="kart_yil" id="kart_yil" class="form-control"
-                               placeholder="YYYY" required maxlength="4">
-                    </div>
-                    <div class="invalid-feedback">Yıl giriniz</div>
-                </div>
+                    width="100%"
+                    height="500"
+                    frameborder="0"
+                    style="border: none; width: 100%;"
+                    >
+                </iframe>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <label for="kart_cvv" class="form-label fw-bold">CVV Kodu</label>
-            <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                <input type="text" name="kart_cvv" id="kart_cvv" class="form-control"
-                       placeholder="XXX" required maxlength="4">
-            </div>
-            <div class="invalid-feedback">Lütfen CVV kodunu giriniz.</div>
-        </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Önce sepeti ve toplam tutarı hesapla
+            const cart = JSON.parse(localStorage.getItem('shopping_cart')) || [];
+            let cartTotal = 0;
+
+            // Sepet içeriğini oluştur ve toplam tutarı hesapla
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                cartTotal += itemTotal;
+                // (Sepet içeriği oluşturma kodunuz burada devam eder)
+            });
+
+            // Toplam tutarı form elementine ata
+            document.getElementById('toplam_tutar').value = cartTotal.toFixed(2);
+            document.getElementById('cart-total-amount').textContent = cartTotal.toFixed(2);
+
+            // Şimdi iframe'i ayarla (tutarın hesaplanması ve atanmasından sonra)
+            const paymentIframe = document.getElementById('payment-iframe');
+
+            // iframe src'yi toplam tutar ile ayarla
+            const totalAmount = cartTotal.toFixed(2);
+            paymentIframe.src = `https://koliver.ankara.bel.tr/test.php?tutar=${totalAmount}`;
+
+            console.log('İframe tutar:', totalAmount); // Debug için
+
+            // iframe'den gelen mesajları dinle
+            window.addEventListener('message', function(event) {
+                // Güvenlik kontrolü
+                if (event.origin === 'https://koliver.ankara.bel.tr') {
+                    const response = event.data;
+
+                    if (response.status === 'success') {
+                        // Ödeme başarılı
+                        document.getElementById('odeme_durumu').value = 'success';
+                        document.getElementById('islem_id').value = response.transaction_id || '';
+
+                        // Form göndermeyi etkinleştir
+                        document.getElementById('payment-submit-btn').disabled = false;
+                    } else {
+                        // Ödeme başarısız
+                        document.getElementById('odeme_durumu').value = 'error';
+
+                        // Hata mesajını göster
+                        alert('Ödeme işlemi sırasında bir hata oluştu: ' + (response.message || 'Bilinmeyen hata'));
+                    }
+                }
+            });
+
+
+
+
+
+        });
+    </script>
+<!--    <div class="form-group mb-4">-->
+<!--        <label for="kart_no" class="form-label fw-bold">Kart Numarası</label>-->
+<!--        <div class="input-group">-->
+<!--            <span class="input-group-text"><i class="bi bi-credit-card"></i></span>-->
+<!--            <input type="text" name="kart_no" id="kart_no" class="form-control"-->
+<!--                   placeholder="XXXX XXXX XXXX XXXX" required maxlength="19">-->
+<!--        </div>-->
+<!--        <div class="invalid-feedback">Lütfen geçerli bir kart numarası giriniz.</div>-->
+<!--    </div>-->
+
+<!--    <div class="row mb-4">-->
+<!--        <div class="col-md-6">-->
+<!--            <label class="form-label fw-bold">Son Kullanma Tarihi</label>-->
+<!--            <div class="row">-->
+<!--                <div class="col-6">-->
+<!--                    <div class="input-group">-->
+<!--                        <span class="input-group-text"><i class="bi bi-calendar-month"></i></span>-->
+<!--                        <input type="text" name="kart_ay" id="kart_ay" class="form-control"-->
+<!--                               placeholder="AA" required maxlength="2">-->
+<!--                    </div>-->
+<!--                    <div class="invalid-feedback">Ay giriniz</div>-->
+<!--                </div>-->
+<!--                <div class="col-6">-->
+<!--                    <div class="input-group">-->
+<!--                        <span class="input-group-text"><i class="bi bi-calendar"></i></span>-->
+<!--                        <input type="text" name="kart_yil" id="kart_yil" class="form-control"-->
+<!--                               placeholder="YYYY" required maxlength="4">-->
+<!--                    </div>-->
+<!--                    <div class="invalid-feedback">Yıl giriniz</div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-md-6">-->
+<!--            <label for="kart_cvv" class="form-label fw-bold">CVV Kodu</label>-->
+<!--            <div class="input-group">-->
+<!--                <span class="input-group-text"><i class="bi bi-lock"></i></span>-->
+<!--                <input type="text" name="kart_cvv" id="kart_cvv" class="form-control"-->
+<!--                       placeholder="XXX" required maxlength="4">-->
+<!--            </div>-->
+<!--            <div class="invalid-feedback">Lütfen CVV kodunu giriniz.</div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <!-- Sepet verilerini saklayacak gizli alan -->
     <input type="hidden" name="siparis_detayi" id="siparis_detayi" value="">
     <input type="hidden" name="toplam_tutar" id="toplam_tutar" value="0">
 
-    <!-- Ödeme işlemini başlat -->
-    <button type="submit" class="btn btn-primary px-4 py-2" id="payment-submit-btn">
-        <i class="bi bi-heart-fill me-2"></i>İyiliği Ulaştır
-    </button>
+    {{ if submission:errors }}
+    <div class="alert alert-danger">
+        <h4>Ödeme İşlemi Başarısız</h4>
 
+        {{ submission:errors }}
+        <p>{{ key }}: {{ value }}</p>
+        {{ /submission:errors }}
+
+        <div class="mt-3">
+            <a href="/odeme" class="btn btn-primary">Tekrar Dene</a>
+        </div>
+    </div>
+    {{ /if }}
+
+    {{ if errors }}
+    <div class="alert alert-danger">
+        <h4>Form Hataları</h4>
+
+        {{ errors }}
+        <p>{{ value }}</p>
+        {{ /errors }}
+    </div>
+    {{ /if }}
+    <!-- Ödeme işlemini başlat -->
+
+    <div class="d-flex justify-content-center mt-4 flex-column align-items-center">
+        <button type="submit" class="btn btn-primary px-4 py-2" id="payment-submit-btn">
+            <i class="bi bi-heart-fill me-2"></i>İyiliği Ulaştır
+        </button>
+        <!-- Bilgilendirme metni JavaScript ile eklenecek -->
+    </div>
     {{ if errors }}
     <div class="alert alert-danger mt-4" role="alert">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -238,16 +362,17 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Sepet verilerini al
         const cart = JSON.parse(localStorage.getItem('shopping_cart')) || [];
+        const submitButton = document.getElementById('payment-submit-btn');
+        const form = document.querySelector('form.needs-validation');
 
-        // Sepet boşsa uyarı göster
+        // Sepet kontrolleri
         if (cart.length === 0) {
             document.getElementById('cart-summary').classList.add('d-none');
             document.getElementById('empty-cart-message').classList.remove('d-none');
-            document.getElementById('payment-submit-btn').disabled = true;
+            submitButton.disabled = true;
         } else {
-            // Sepet özetini oluştur
+            // Sepet içeriğini oluştur
             const cartItemsContainer = document.getElementById('cart-items-container');
             let cartTotal = 0;
 
@@ -258,27 +383,28 @@
                 const listItem = document.createElement('div');
                 listItem.className = 'list-group-item';
                 listItem.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <div class="me-3" style="width: 60px; height: 60px;">
-                        <div class="bg-light rounded d-flex justify-content-center align-items-center h-100">
-                            ${item.imageUrl ?
+            <div class="d-flex align-items-center">
+                <div class="me-3" style="width: 60px; height: 60px;">
+                    <div class="bg-light rounded d-flex justify-content-center align-items-center h-100">
+                        ${item.imageUrl ?
                     `<img src="${item.imageUrl}" alt="${item.name}" class="img-fluid rounded"
-                                style="max-width: 100%; max-height: 100%; object-fit: contain;"
-                                onerror="this.onerror=null; this.src=''; this.parentElement.innerHTML='<div class=\\'d-flex align-items-center justify-content-center h-100\\'><i class=\\'bi bi-image text-muted\\'></i></div>';">` :
-                    `<div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-image text-muted"></i></div>`
+                            style="max-width: 100%; max-height: 100%; object-fit: contain;">` :
+                    `<div class="d-flex align-items-center justify-content-center h-100">
+                                <i class="bi bi-image text-muted"></i>
+                            </div>`
                 }
-                        </div>
-                    </div>
-                    <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0">${item.name}</h6>
-                                <small class="text-muted">${item.quantity} adet x ${item.price.toFixed(2)} ₺</small>
-                            </div>
-                            <span class="fw-bold">${itemTotal.toFixed(2)} ₺</span>
-                        </div>
                     </div>
                 </div>
+                <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">${item.name}</h6>
+                            <small class="text-muted">${item.quantity} adet x ${item.price.toFixed(2)} ₺</small>
+                        </div>
+                        <span class="fw-bold">${itemTotal.toFixed(2)} ₺</span>
+                    </div>
+                </div>
+            </div>
             `;
 
                 cartItemsContainer.appendChild(listItem);
@@ -287,65 +413,199 @@
             // Toplam tutarı güncelle
             document.getElementById('cart-total-amount').textContent = cartTotal.toFixed(2);
             document.getElementById('toplam_tutar').value = cartTotal.toFixed(2);
-
-            // Sipariş detaylarını gizli alana ekle
             document.getElementById('siparis_detayi').value = JSON.stringify(cart);
         }
 
-        // Form doğrulama için Bootstrap validation
-        const forms = document.querySelectorAll('.needs-validation');
-        Array.prototype.slice.call(forms).forEach(function(form) {
+        // Ödeme butonu başlangıçta devre dışı
+        submitButton.disabled = true;
+
+        // Bilgilendirme metni ekle
+        const paymentInfo = document.createElement('small');
+        paymentInfo.className = 'text-muted mt-2 text-center';
+        paymentInfo.innerHTML = '<i class="bi bi-info-circle me-1"></i>Ödeme işlemi tamamlandıktan sonra buton etkinleşecektir.';
+        submitButton.parentNode.appendChild(paymentInfo);
+
+        // Ödeme durumu takibi için değişken
+        let paymentCompleted = false;
+
+        // Ödeme durumu için hidden input ekle (sonuc.php için gerekli)
+        if (!document.getElementById('odeme_durumu')) {
+            const odemeInput = document.createElement('input');
+            odemeInput.type = 'hidden';
+            odemeInput.id = 'odeme_durumu';
+            odemeInput.name = 'odeme_durumu';
+            odemeInput.value = 'beklemede';
+            form.appendChild(odemeInput);
+        }
+
+        // İşlem ID için hidden input ekle (sonuc.php için gerekli)
+        if (!document.getElementById('islem_id')) {
+            const islemInput = document.createElement('input');
+            islemInput.type = 'hidden';
+            islemInput.id = 'islem_id';
+            islemInput.name = 'islem_id';
+            islemInput.value = '';
+            form.appendChild(islemInput);
+        }
+
+        // Form submit kontrolü ekle
+        form.addEventListener('submit', function(event) {
+            if (!paymentCompleted) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                // Uyarı göster
+                const alertContainer = document.createElement('div');
+                alertContainer.className = 'alert alert-danger mt-3';
+                alertContainer.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-2"></i>Lütfen önce ödeme işlemini tamamlayınız!';
+
+                // Eğer daha önce eklenmiş alert varsa kaldır
+                const existingAlert = document.querySelector('.alert.alert-danger');
+                if (existingAlert) {
+                    existingAlert.remove();
+                }
+
+                // Alert'i iframe container'ın altına ekle
+                document.getElementById('payment-iframe-container').appendChild(alertContainer);
+
+                // 3 saniye sonra alert'i kaldır
+                setTimeout(() => {
+                    alertContainer.remove();
+                }, 3000);
+
+                return false;
+            }
+
+            // Form validasyonu
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        });
+
+        // Form validasyonu
+        Array.from(document.querySelectorAll('.needs-validation')).forEach(form => {
             form.addEventListener('submit', function(event) {
                 if (!form.checkValidity()) {
                     event.preventDefault();
                     event.stopPropagation();
-                } else if (cart.length === 0) {
-                    // Sepet boşsa form gönderimini engelle
-                    event.preventDefault();
-                    alert('Lütfen sepetinize ürün ekleyin.');
                 }
-
                 form.classList.add('was-validated');
             }, false);
         });
 
-        // Kart numarası formatı
-        document.getElementById('kart_no').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            let formattedValue = '';
+        // Kart numarası formatı (mevcut kodunuzda varsa bırakabilirsiniz)
+        const kartNo = document.getElementById('kart_no');
+        if (kartNo) {
+            kartNo.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                let formattedValue = '';
 
-            for (let i = 0; i < value.length; i++) {
-                if (i > 0 && i % 4 === 0) {
-                    formattedValue += ' ';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
                 }
-                formattedValue += value[i];
-            }
 
-            e.target.value = formattedValue;
+                e.target.value = formattedValue;
+            });
+        }
+
+        // Telefon numarası formatı
+        const telefonInput = document.getElementById('telefon');
+        if (telefonInput) {
+            telefonInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                let formattedValue = '';
+
+                for (let i = 0; i < value.length; i++) {
+                    if (i === 3 || i === 6 || i === 8) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+
+                e.target.value = formattedValue;
+            });
+        }
+
+        // iframe'den gelen mesajları dinle
+        window.addEventListener('message', function(event) {
+            // Mesajı konsola yazdır (debug için)
+            console.log('iframe mesajı alındı:', event.origin, event.data);
+
+            // Her türlü mesajı kabul edelim (debug için)
+            const response = event.data;
+
+            // Yanıt bir obje ve status değeri success ise
+            if (response && response.status === 'success') {
+                console.log('Ödeme başarılı, buton etkinleştiriliyor');
+
+                // Ödeme durumu ve işlem ID'sini güncelle
+                const odemeInput = document.getElementById('odeme_durumu') || document.createElement('input');
+                odemeInput.type = 'hidden';
+                odemeInput.id = 'odeme_durumu';
+                odemeInput.name = 'odeme_durumu';
+                odemeInput.value = 'success';
+
+                const islemInput = document.getElementById('islem_id') || document.createElement('input');
+                islemInput.type = 'hidden';
+                islemInput.id = 'islem_id';
+                islemInput.name = 'islem_id';
+                islemInput.value = response.transaction_id || '';
+
+                // Form varsa ekle
+                const form = document.querySelector('form.needs-validation');
+                if (form) {
+                    if (!document.getElementById('odeme_durumu')) form.appendChild(odemeInput);
+                    if (!document.getElementById('islem_id')) form.appendChild(islemInput);
+                }
+
+                // Ödeme tamamlandı olarak işaretle
+                window.paymentCompleted = true;
+                paymentCompleted = true;
+                // Submit butonu
+                const submitButton = document.getElementById('payment-submit-btn');
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('btn-primary');
+                    submitButton.classList.add('btn-success');
+                }
+
+                // Bilgilendirme metni
+                const paymentInfo = document.querySelector('#payment-submit-btn + small') ||
+                    document.createElement('small');
+
+                paymentInfo.className = 'text-success mt-2 text-center';
+                paymentInfo.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i>Ödeme işlemi başarılı! Şimdi "İyiliği Ulaştır" butonuna tıklayabilirsiniz.';
+
+                if (!document.querySelector('#payment-submit-btn + small') && submitButton) {
+                    submitButton.parentNode.appendChild(paymentInfo);
+                }
+
+                // Başarılı ödeme bildirimi
+                const successAlert = document.createElement('div');
+                successAlert.className = 'alert alert-success mt-3';
+                successAlert.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i>Ödeme işlemi başarıyla tamamlandı. Şimdi "İyiliği Ulaştır" butonuna tıklayabilirsiniz.';
+
+                // Mevcut alertleri kaldır
+                const existingAlerts = document.querySelectorAll('.alert');
+                existingAlerts.forEach(alert => alert.remove());
+
+                // Alert ekle
+                const container = document.getElementById('payment-iframe-container');
+                if (container) container.appendChild(successAlert);
+
+                // 5 saniye sonra alert'i kaldır
+                setTimeout(() => {
+                    successAlert.remove();
+                }, 5000);
+            }
         });
 
-        // Sadece sayısal girişlere izin ver
-        const numericInputs = ['kart_no', 'kart_ay', 'kart_yil', 'kart_cvv', 'tc_kimlik'];
-        numericInputs.forEach(inputId => {
-            const input = document.getElementById(inputId);
-            if (input) {
-                input.addEventListener('input', function(e) {
-                    e.target.value = e.target.value.replace(/\D/g, '');
-                });
-            }
-        });
+        // iframe src'yi toplam tutar ile ayarla
 
-        // Form başarıyla gönderildiğinde localStorage'ı temizle
-        document.querySelector('form[data-form="iyiligi_ulastir"]').addEventListener('submit', function() {
-            if (this.checkValidity()) {
-                localStorage.removeItem('shopping_cart');
-
-                // Sepet sayacını güncelle
-                const cartBadges = document.querySelectorAll('.cart-count-badge');
-                cartBadges.forEach(badge => {
-                    badge.textContent = '';
-                });
-            }
-        });
     });
 </script>

@@ -35,23 +35,20 @@
 <body>
 <div class="container py-3">
     <div class="row g-3">
-
         <!-- Toplam Koli Sayacı -->
         <div class="col-6">
             <div class="counter-card bg-white p-4 text-center">
                 <h5 class="card-title text-primary">TOPLAM KOLİ</h5>
-                <p class="card-value text-dark mb-0">128</p>
+                <p class="card-value text-dark mb-0">{{ settings:toplam_bagis_sayisi }}</p>
             </div>
         </div>
-
         <!-- Toplam Tutar Sayacı -->
         <div class="col-6">
             <div class="counter-card bg-white p-4 text-center">
                 <h5 class="card-title text-success">TOPLAM TUTAR</h5>
-                <p class="card-value text-dark mb-0">5.670 ₺</p>
+                <p class="card-value text-dark mb-0">{{ settings:toplam_bagis_tutari }} ₺</p>
             </div>
         </div>
-
     </div>
 </div>
 <style>

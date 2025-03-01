@@ -10,12 +10,15 @@ tabs:
             field:
               type: text
               required: true
+              validate:
+                - required
           -
             handle: order_date
             field:
               type: date
               display: 'Sipariş Tarihi'
-              required: true
+              validate:
+                - required
           -
             handle: customer_name
             field:
@@ -29,26 +32,8 @@ tabs:
               add_row: 'Ürün Ekle'
               fields:
                 -
-                  handle: product_name
-                  field:
-                    type: text
-                    display: 'Ürün Adı'
-                -
-                  handle: product_code
-                  field:
-                    type: text
-                    display: 'Ürün Kodu'
-                -
-                  handle: quantity
-                  field:
-                    type: integer
-                    display: 'Miktar'
-                    default: 1
-                -
-                  handle: unit_price
-                  field:
-                    type: text
-                    display: 'Birim Fiyat'
+                  handle: products
+                  field: urun_listesi.products
   sidebar:
     display: Sidebar
     sections:
@@ -58,15 +43,18 @@ tabs:
             handle: slug
             field:
               type: slug
-              required: true
+              localizable: true
+              validate:
+                - required
+                - 'max:200'
           -
             handle: order_status
             field:
               type: select
               display: 'Sipariş Durumu'
               options:
-                new: 'Yeni'
-                processing: 'İşleniyor'
+                new: Yeni
+                processing: İşleniyor
                 shipped: 'Kargoya Verildi'
-                completed: 'Tamamlandı'
+                completed: Tamamlandı
               default: new

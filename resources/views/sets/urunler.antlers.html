@@ -1,6 +1,6 @@
 {{# Modern Ürün Listeleme Görünümü #}}
 {{ if products }}
-<div class="container-fluid product-listing-container my-5">
+<div class="container-fluid product-listing-container">
     <div class="row g-3">
         {{ products }}
         <div class="col-6 col-md-4 col-lg-3">
@@ -24,10 +24,7 @@
                     {{ /if }}
 
                     <div class="product-details p-2 p-sm-3">
-                        {{# Ürün Kodu #}}
-                        {{ if product_code }}
-                        <span class="product-code text-uppercase text-muted small">Kod: {{ product_code }}</span>
-                        {{ /if }}
+
 
                         {{# Ürün Adı #}}
                         <h5 class="product-title mt-1 mb-2 fs-6">{{ product_name }}</h5>

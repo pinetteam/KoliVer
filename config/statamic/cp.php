@@ -24,7 +24,13 @@ return [
     | and where users should be redirected in order to authenticate.
     |
     */
-
+    'forms' => [
+        'submissions' => [
+            'edit' => true,
+            'create' => true,
+            'delete' => true,
+        ],
+    ],
     'auth' => [
         'enabled' => true,
         'redirect_to' => null,

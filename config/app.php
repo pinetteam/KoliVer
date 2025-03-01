@@ -126,5 +126,7 @@ return [
         // Diğer servis sağlayıcılar...
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\FormServiceProvider::class,
+
     ],
 ];

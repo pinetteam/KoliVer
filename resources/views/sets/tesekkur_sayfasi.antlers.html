@@ -1,0 +1,160 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Teşekkür Kartı -->
+            <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5 success-card">
+                <!-- Başlık Bölümü -->
+                <div class="card-header bg-success text-white text-center py-4">
+                    <div class="success-icon mb-3">
+                        <i class="bi bi-check-circle-fill" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="fw-bold">Ödeme Alındı!</h2>
+                    <p class="mb-0">İyiliğiniz için teşekkür ederiz.</p>
+                </div>
+
+                <!-- Sipariş Detayları -->
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <h4 class="mb-3">Sipariş Detayları</h4>
+
+                        {{ if order_info }}
+                        <div class="order-details p-3 bg-light rounded">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Sipariş Numarası:</span>
+                                <span class="fw-bold">{{ order_info:order_id }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Ödeme Tarihi:</span>
+                                <span class="fw-bold">{{ now format="d.m.Y H:i" }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Toplam Tutar:</span>
+                                <span class="fw-bold text-success">{{ order_info:amount ?? '0.00' }} ₺</span>
+                            </div>
+                        </div>
+                        {{ /if }}
+                    </div>
+
+                    <!-- Teşekkür Mesajı -->
+                    <div class="text-center mb-4">
+                        <div class="thankyou-message">
+                            <p class="lead">Değerli bağışınız için teşekkür ederiz!</p>
+                            <p>İyiliğiniz en kısa sürede ihtiyaç sahiplerine ulaştırılacaktır.</p>
+                            <p class="small text-muted mt-3">Sipariş detaylarınız e-posta adresinize gönderilmiştir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Butonlar -->
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <a href="/" class="btn btn-success px-4">
+                            <i class="bi bi-house-fill me-2"></i>Ana Sayfaya Dön
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Alt Bilgi -->
+                <div class="card-footer text-center py-3 bg-light">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <i class="bi bi-shield-check text-success me-2" style="font-size: 1.5rem;"></i>
+                                <div class="text-start">
+                                    <h6 class="mb-0">Güvenli Ödeme</h6>
+                                    <small class="text-muted">Tüm işlemleriniz şifrelidir</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <i class="bi bi-envelope-check text-success me-2" style="font-size: 1.5rem;"></i>
+                                <div class="text-start">
+                                    <h6 class="mb-0">Sipariş Bilgisi</h6>
+                                    <small class="text-muted">E-postanıza gönderildi</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sipariş Takip Kartı -->
+            <div class="card shadow border-0 rounded-lg mb-5">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-question-circle-fill text-primary" style="font-size: 2rem;"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="mb-1">Sorularınız mı var?</h5>
+                            <p class="mb-0">Bize <a href="/iletisim" class="text-decoration-none">iletişim</a> sayfamızdan ulaşabilirsiniz</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .success-card {
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .success-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .success-icon {
+        animation: checkmark 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        opacity: 0;
+    }
+
+    @keyframes checkmark {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .order-details {
+        border-left: 4px solid #198754;
+    }
+
+    .thankyou-message {
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // LocalStorage'dan sepeti temizle
+        localStorage.removeItem('shopping_cart');
+        console.log('Sepet başarıyla temizlendi!');
+
+        // Confetti efekti (isteğe bağlı)
+        setTimeout(function() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }, 500);
+    });
+</script>
