@@ -1,23 +1,18 @@
-title: 'Contact Section'
+title: 'İletişim Bölümü'
 fields:
   -
     import: rich_text
   -
     handle: contact_info
     field:
-      collapse: false
-      previews: true
-      fullscreen: true
+      type: replicator
+      display: 'Contact Info'
       sets:
         main:
           display: Main
-          instructions: null
-          icon: null
           sets:
             contact:
               display: Contact
-              instructions: null
-              icon: null
               fields:
                 -
                   handle: select_type
@@ -72,10 +67,3 @@ fields:
                     validate:
                       - required
                     width: 33
-      type: replicator
-      display: 'Contact Info'
-      icon: replicator
-      listable: hidden
-      instructions_position: above
-      visibility: visible
-      hide_display: false

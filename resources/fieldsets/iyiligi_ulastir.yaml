@@ -1,0 +1,9 @@
+title: 'İyiliği Ulaştır'
+fields:
+  -
+    handle: form_alan
+    field:
+      max_items: 1
+      type: form
+      display: 'Form Alan'
+      hide_display: true

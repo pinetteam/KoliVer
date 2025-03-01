@@ -1,0 +1,89 @@
+<style>
+        .counter-card {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .counter-card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .card-title {
+            color: #6c757d;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        /* Mobil için ek stil */
+        @media (max-width: 767.98px) {
+            .card-value {
+                font-size: 1.8rem;
+            }
+            .card-title {
+                font-size: 0.9rem;
+            }
+            .counter-card {
+                padding: 10px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container py-3">
+    <div class="row g-3">
+
+        <!-- Toplam Koli Sayacı -->
+        <div class="col-6">
+            <div class="counter-card bg-white p-4 text-center">
+                <h5 class="card-title text-primary">TOPLAM KOLİ</h5>
+                <p class="card-value text-dark mb-0">128</p>
+            </div>
+        </div>
+
+        <!-- Toplam Tutar Sayacı -->
+        <div class="col-6">
+            <div class="counter-card bg-white p-4 text-center">
+                <h5 class="card-title text-success">TOPLAM TUTAR</h5>
+                <p class="card-value text-dark mb-0">5.670 ₺</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    .counter-card {
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    .counter-card:hover {
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        transform: translateY(-3px);
+    }
+    .card-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+    .card-title {
+        color: #6c757d;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    /* Mobil için ek stil */
+    @media (max-width: 767.98px) {
+        .card-value {
+            font-size: 1.8rem;
+        }
+        .card-title {
+            font-size: 0.9rem;
+        }
+        .counter-card {
+            padding: 10px !important;
+        }
+    }
+</style>

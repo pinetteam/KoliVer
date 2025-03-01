@@ -1,0 +1,7 @@
+<select name="{{ name }}" id="{{ name }}" class="{{ class }}" {{ if required }}required{{ /if }}>
+<option value="" selected disabled>{{ placeholder ?? 'Lütfen seçiniz' }}</option>
+{{ sehir_options = blueprint:fields:sehir:field:options }}
+{{ sehir_options }}
+<option value="{{ key }}" {{ if key == sehir }}selected{{ /if }}>{{ value }}</option>
+{{ /sehir_options }}
+</select>

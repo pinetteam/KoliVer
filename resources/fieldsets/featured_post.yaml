@@ -1,31 +1,18 @@
-title: 'Featured Post'
+title: 'Öne Çıkan Yazı'
 fields:
   -
     handle: featured_post
     field:
       max_items: 1
-      mode: default
-      create: true
       collections:
         - posts
       type: entries
       display: 'Featured Post'
-      icon: entries
-      listable: hidden
-      instructions_position: above
-      visibility: visible
-      hide_display: false
       validate:
         - required
   -
     handle: background_color
     field:
-      allow_any: true
       default: '#ac906d'
       type: color
       display: 'Background Color'
-      icon: color
-      listable: hidden
-      instructions_position: above
-      visibility: visible
-      hide_display: false

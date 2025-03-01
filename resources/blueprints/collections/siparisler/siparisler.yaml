@@ -1,0 +1,72 @@
+title: Siparişler
+tabs:
+  main:
+    display: Ana
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+          -
+            handle: order_date
+            field:
+              type: date
+              display: 'Sipariş Tarihi'
+              required: true
+          -
+            handle: customer_name
+            field:
+              type: text
+              display: 'Müşteri Adı'
+          -
+            handle: sold_products
+            field:
+              type: grid
+              display: 'Sipariş Edilen Ürünler'
+              add_row: 'Ürün Ekle'
+              fields:
+                -
+                  handle: product_name
+                  field:
+                    type: text
+                    display: 'Ürün Adı'
+                -
+                  handle: product_code
+                  field:
+                    type: text
+                    display: 'Ürün Kodu'
+                -
+                  handle: quantity
+                  field:
+                    type: integer
+                    display: 'Miktar'
+                    default: 1
+                -
+                  handle: unit_price
+                  field:
+                    type: text
+                    display: 'Birim Fiyat'
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              required: true
+          -
+            handle: order_status
+            field:
+              type: select
+              display: 'Sipariş Durumu'
+              options:
+                new: 'Yeni'
+                processing: 'İşleniyor'
+                shipped: 'Kargoya Verildi'
+                completed: 'Tamamlandı'
+              default: new

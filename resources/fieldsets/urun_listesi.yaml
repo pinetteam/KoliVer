@@ -4,11 +4,11 @@ fields:
     handle: products
     field:
       type: grid
-      display: 'Ürünler'
+      display: Ürünler
       instructions: 'Ürün bilgilerini buraya ekleyin'
       min_rows: 0
       add_row: 'Yeni Ürün Ekle'
-      reorderable: true
+      mode: stacked
       fields:
         -
           handle: product_image
@@ -19,16 +19,18 @@ fields:
             container: assets
             mode: grid
             max_files: 1
-            required: true
             width: 33
+            validate:
+              - required
         -
           handle: product_name
           field:
             type: text
             display: 'Ürün Adı'
             instructions: 'Ürünün tam adını girin'
-            required: true
             width: 33
+            validate:
+              - required
         -
           handle: product_code
           field:
@@ -40,8 +42,8 @@ fields:
           handle: product_description
           field:
             type: textarea
-            display: 'Açıklama'
-            instructions: 'Ürün açıklaması'
+            display: 'Kısa Açıklama'
+            instructions: 'Ürün için kısa açıklama (hover ve özet için)'
             width: 75
         -
           handle: product_quantity
@@ -58,5 +60,27 @@ fields:
             type: text
             display: 'Satış Fiyatı'
             instructions: 'Ürünün satış fiyatı (örn: 149.99 ₺)'
-            required: true
             width: 25
+            validate:
+              - required
+        -
+          handle: product_details
+          field:
+            type: bard
+            display: 'Ürün Detayları'
+            instructions: 'Ürün için detaylı bilgi, özellikler ve tablolar ekleyebilirsiniz'
+            buttons:
+              - h2
+              - h3
+              - bold
+              - italic
+              - unorderedlist
+              - orderedlist
+              - quote
+              - link
+              - image
+              - table
+            container: assets
+            save_html: true
+            remove_empty_nodes: false
+            display_text_direction: false

@@ -1,0 +1,36 @@
+tabs:
+  main:
+    display: Ana
+    sections:
+      -
+        fields:
+          -
+            handle: tc_kimlik
+            field:
+              type: text
+              display: 'Tc Kimlik'
+          -
+            handle: ad_soyad
+            field:
+              type: text
+              display: 'Ad Soyad'
+          -
+            handle: telefon
+            field:
+              input_type: tel
+              character_limit: 15
+              type: text
+              display: Telefon
+          -
+            handle: sehir
+            field:
+              options:
+                -
+                  key: Ankara
+                  value: Ankara
+                -
+                  key: İstanbul
+                  value: istanbul
+              type: select
+              display: Şehir
+              listable: true

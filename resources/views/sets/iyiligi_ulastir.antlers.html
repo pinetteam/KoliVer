@@ -1,0 +1,351 @@
+<div class="container-fluid">
+    {{ form:iyiligi_ulastir class="my-8 needs-validation" novalidate redirect="/tesekkur-sayfasi"  store="false" }}
+    <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}">
+
+    <!-- Sepet Özeti -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Sepet Özeti</h5>
+        </div>
+        <div class="card-body p-0" id="cart-summary">
+            <!-- JavaScript ile sepet içeriği burada gösterilecek -->
+            <div id="cart-items-container" class="list-group list-group-flush"></div>
+
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Toplam:</h5>
+                    <h5 class="mb-0 fw-bold"><span id="cart-total-amount">0.00</span> ₺</h5>
+                </div>
+            </div>
+        </div>
+        <div id="empty-cart-message" class="card-body text-center d-none">
+            <i class="bi bi-cart-x text-muted" style="font-size: 3rem;"></i>
+            <p class="mt-3">Sepetiniz boş. Lütfen ödeme öncesi ürün ekleyin.</p>
+            <a href="/" class="btn btn-primary">Ürünlere Dön</a>
+        </div>
+    </div>
+
+    <!-- Kişisel Bilgiler Bölümü -->
+    <h4 class="mb-3">Kişisel Bilgiler</h4>
+
+    <div class="form-group mb-4">
+        <label for="ad_soyad" class="form-label fw-bold">Ad Soyad</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+            <input type="text" name="ad_soyad" id="ad_soyad" class="form-control" required>
+        </div>
+        <div class="invalid-feedback">Lütfen ad ve soyadınızı giriniz.</div>
+    </div>
+
+    <div class="form-group mb-4">
+        <label for="tc_kimlik" class="form-label fw-bold">TC Kimlik No</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
+            <input type="text" name="tc_kimlik" id="tc_kimlik" class="form-control" pattern="[0-9]{11}">
+        </div>
+        <div class="invalid-feedback">Lütfen geçerli bir TC Kimlik numarası giriniz.</div>
+    </div>
+
+    <div class="form-group mb-4">
+        <label for="telefon" class="form-label fw-bold">Telefon</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-phone"></i></span>
+            <input type="text" name="telefon" id="telefon" class="form-control" required>
+        </div>
+        <div class="invalid-feedback">Lütfen geçerli bir Telefon numarası giriniz.</div>
+    </div>
+
+    <div class="form-group mb-4">
+        <label for="dogum_tarihi" class="form-label fw-bold">Doğum Tarihi</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-calendar-fill"></i></span>
+            <input type="date" name="dogum_tarihi" id="dogum_tarihi" class="form-control">
+        </div>
+        <div class="invalid-feedback">Lütfen geçerli bir doğum tarihi giriniz. (18 yaş üstü)</div>
+    </div>
+
+    <div class="form-group mb-4">
+        <label for="sehir" class="form-label fw-bold">Şehir Seçiniz</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+            <select name="sehir" id="sehir" class="form-control" required>
+                <option value="">Şehir Seçiniz</option>
+                <option value="adana">Adana</option>
+                <option value="adiyaman">Adıyaman</option>
+                <option value="afyonkarahisar">Afyonkarahisar</option>
+                <option value="agri">Ağrı</option>
+                <option value="amasya">Amasya</option>
+                <option value="ankara">Ankara</option>
+                <option value="antalya">Antalya</option>
+                <option value="artvin">Artvin</option>
+                <option value="aydin">Aydın</option>
+                <option value="balikesir">Balıkesir</option>
+                <option value="bilecik">Bilecik</option>
+                <option value="bingol">Bingöl</option>
+                <option value="bitlis">Bitlis</option>
+                <option value="bolu">Bolu</option>
+                <option value="burdur">Burdur</option>
+                <option value="bursa">Bursa</option>
+                <option value="canakkale">Çanakkale</option>
+                <option value="cankiri">Çankırı</option>
+                <option value="corum">Çorum</option>
+                <option value="denizli">Denizli</option>
+                <option value="diyarbakir">Diyarbakır</option>
+                <option value="edirne">Edirne</option>
+                <option value="elazig">Elazığ</option>
+                <option value="erzincan">Erzincan</option>
+                <option value="erzurum">Erzurum</option>
+                <option value="eskisehir">Eskişehir</option>
+                <option value="gaziantep">Gaziantep</option>
+                <option value="giresun">Giresun</option>
+                <option value="gumushane">Gümüşhane</option>
+                <option value="hakkari">Hakkari</option>
+                <option value="hatay">Hatay</option>
+                <option value="isparta">Isparta</option>
+                <option value="mersin">Mersin</option>
+                <option value="istanbul">İstanbul</option>
+                <option value="izmir">İzmir</option>
+                <option value="kars">Kars</option>
+                <option value="kastamonu">Kastamonu</option>
+                <option value="kayseri">Kayseri</option>
+                <option value="kirklareli">Kırklareli</option>
+                <option value="kirsehir">Kırşehir</option>
+                <option value="kocaeli">Kocaeli</option>
+                <option value="konya">Konya</option>
+                <option value="kutahya">Kütahya</option>
+                <option value="malatya">Malatya</option>
+                <option value="manisa">Manisa</option>
+                <option value="kahramanmaras">Kahramanmaraş</option>
+                <option value="mardin">Mardin</option>
+                <option value="mugla">Muğla</option>
+                <option value="mus">Muş</option>
+                <option value="nevsehir">Nevşehir</option>
+                <option value="nigde">Niğde</option>
+                <option value="ordu">Ordu</option>
+                <option value="rize">Rize</option>
+                <option value="sakarya">Sakarya</option>
+                <option value="samsun">Samsun</option>
+                <option value="siirt">Siirt</option>
+                <option value="sinop">Sinop</option>
+                <option value="sivas">Sivas</option>
+                <option value="tekirdag">Tekirdağ</option>
+                <option value="tokat">Tokat</option>
+                <option value="trabzon">Trabzon</option>
+                <option value="tunceli">Tunceli</option>
+                <option value="sanliurfa">Şanlıurfa</option>
+                <option value="usak">Uşak</option>
+                <option value="van">Van</option>
+                <option value="yozgat">Yozgat</option>
+                <option value="zonguldak">Zonguldak</option>
+                <option value="aksaray">Aksaray</option>
+                <option value="bayburt">Bayburt</option>
+                <option value="karaman">Karaman</option>
+                <option value="kirikkale">Kırıkkale</option>
+                <option value="batman">Batman</option>
+                <option value="sirnak">Şırnak</option>
+                <option value="bartin">Bartın</option>
+                <option value="ardahan">Ardahan</option>
+                <option value="igdir">Iğdır</option>
+                <option value="yalova">Yalova</option>
+                <option value="karabuk">Karabük</option>
+                <option value="kilis">Kilis</option>
+                <option value="osmaniye">Osmaniye</option>
+                <option value="duzce">Düzce</option>
+            </select>
+        </div>
+        <div class="invalid-feedback">Lütfen bir şehir seçiniz.</div>
+    </div>
+
+    <!-- Ödeme Bilgileri Bölümü -->
+    <h4 class="mb-3 mt-5">Ödeme Bilgileri</h4>
+
+    <div class="form-group mb-4">
+        <label for="kart_no" class="form-label fw-bold">Kart Numarası</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+            <input type="text" name="kart_no" id="kart_no" class="form-control"
+                   placeholder="XXXX XXXX XXXX XXXX" required maxlength="19">
+        </div>
+        <div class="invalid-feedback">Lütfen geçerli bir kart numarası giriniz.</div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <label class="form-label fw-bold">Son Kullanma Tarihi</label>
+            <div class="row">
+                <div class="col-6">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-calendar-month"></i></span>
+                        <input type="text" name="kart_ay" id="kart_ay" class="form-control"
+                               placeholder="AA" required maxlength="2">
+                    </div>
+                    <div class="invalid-feedback">Ay giriniz</div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                        <input type="text" name="kart_yil" id="kart_yil" class="form-control"
+                               placeholder="YYYY" required maxlength="4">
+                    </div>
+                    <div class="invalid-feedback">Yıl giriniz</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="kart_cvv" class="form-label fw-bold">CVV Kodu</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input type="text" name="kart_cvv" id="kart_cvv" class="form-control"
+                       placeholder="XXX" required maxlength="4">
+            </div>
+            <div class="invalid-feedback">Lütfen CVV kodunu giriniz.</div>
+        </div>
+    </div>
+
+    <!-- Sepet verilerini saklayacak gizli alan -->
+    <input type="hidden" name="siparis_detayi" id="siparis_detayi" value="">
+    <input type="hidden" name="toplam_tutar" id="toplam_tutar" value="0">
+
+    <!-- Ödeme işlemini başlat -->
+    <button type="submit" class="btn btn-primary px-4 py-2" id="payment-submit-btn">
+        <i class="bi bi-heart-fill me-2"></i>İyiliği Ulaştır
+    </button>
+
+    {{ if errors }}
+    <div class="alert alert-danger mt-4" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ errors }}
+        {{ value }}<br>
+        {{ /errors }}
+    </div>
+    {{ /if }}
+    {{ /form:iyiligi_ulastir }}
+
+    <!-- Güvenli ödeme bilgisi -->
+    <div class="card mt-4 mb-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-shield-lock-fill text-success me-3" style="font-size: 2rem;"></i>
+                <div>
+                    <h5 class="mb-1">Güvenli Ödeme</h5>
+                    <p class="mb-0 text-muted">Tüm ödemeleriniz 256-bit SSL sertifikası ile güvenle korunmaktadır.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sepet verilerini al
+        const cart = JSON.parse(localStorage.getItem('shopping_cart')) || [];
+
+        // Sepet boşsa uyarı göster
+        if (cart.length === 0) {
+            document.getElementById('cart-summary').classList.add('d-none');
+            document.getElementById('empty-cart-message').classList.remove('d-none');
+            document.getElementById('payment-submit-btn').disabled = true;
+        } else {
+            // Sepet özetini oluştur
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            let cartTotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                cartTotal += itemTotal;
+
+                const listItem = document.createElement('div');
+                listItem.className = 'list-group-item';
+                listItem.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <div class="me-3" style="width: 60px; height: 60px;">
+                        <div class="bg-light rounded d-flex justify-content-center align-items-center h-100">
+                            ${item.imageUrl ?
+                    `<img src="${item.imageUrl}" alt="${item.name}" class="img-fluid rounded"
+                                style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                                onerror="this.onerror=null; this.src=''; this.parentElement.innerHTML='<div class=\\'d-flex align-items-center justify-content-center h-100\\'><i class=\\'bi bi-image text-muted\\'></i></div>';">` :
+                    `<div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-image text-muted"></i></div>`
+                }
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0">${item.name}</h6>
+                                <small class="text-muted">${item.quantity} adet x ${item.price.toFixed(2)} ₺</small>
+                            </div>
+                            <span class="fw-bold">${itemTotal.toFixed(2)} ₺</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                cartItemsContainer.appendChild(listItem);
+            });
+
+            // Toplam tutarı güncelle
+            document.getElementById('cart-total-amount').textContent = cartTotal.toFixed(2);
+            document.getElementById('toplam_tutar').value = cartTotal.toFixed(2);
+
+            // Sipariş detaylarını gizli alana ekle
+            document.getElementById('siparis_detayi').value = JSON.stringify(cart);
+        }
+
+        // Form doğrulama için Bootstrap validation
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else if (cart.length === 0) {
+                    // Sepet boşsa form gönderimini engelle
+                    event.preventDefault();
+                    alert('Lütfen sepetinize ürün ekleyin.');
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        });
+
+        // Kart numarası formatı
+        document.getElementById('kart_no').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            let formattedValue = '';
+
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+
+            e.target.value = formattedValue;
+        });
+
+        // Sadece sayısal girişlere izin ver
+        const numericInputs = ['kart_no', 'kart_ay', 'kart_yil', 'kart_cvv', 'tc_kimlik'];
+        numericInputs.forEach(inputId => {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                });
+            }
+        });
+
+        // Form başarıyla gönderildiğinde localStorage'ı temizle
+        document.querySelector('form[data-form="iyiligi_ulastir"]').addEventListener('submit', function() {
+            if (this.checkValidity()) {
+                localStorage.removeItem('shopping_cart');
+
+                // Sepet sayacını güncelle
+                const cartBadges = document.querySelectorAll('.cart-count-badge');
+                cartBadges.forEach(badge => {
+                    badge.textContent = '';
+                });
+            }
+        });
+    });
+</script>

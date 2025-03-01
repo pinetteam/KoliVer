@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Istanbul',
 
     /*
     |--------------------------------------------------------------------------
@@ -122,5 +122,9 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'file'),
     ],
-
+    'providers' => [
+        // Diğer servis sağlayıcılar...
+        App\Providers\AppServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+    ],
 ];

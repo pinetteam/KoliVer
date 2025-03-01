@@ -1,60 +1,128 @@
 {{# Modern Ürün Listeleme Görünümü #}}
 {{ if products }}
-<div class="product-listing-container my-5">
-    <div class="row g-4">
+<div class="container-fluid product-listing-container my-5">
+    <div class="row g-3">
         {{ products }}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-6 col-md-4 col-lg-3">
             <div class="product-card h-100 shadow-sm rounded overflow-hidden border-0 position-relative">
-                {{# Ürün Resmi #}}
-                {{ if product_image }}
-                <div class="product-image-container">
-                    <img src="{{ product_image:permalink ?? product_image:url }}" class="product-image" alt="{{ product_name }}">
-                </div>
-                {{ else }}
-                <div class="product-image-placeholder d-flex align-items-center justify-content-center">
-                    <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
-                </div>
-                {{ /if }}
+                {{# Ürün Resmi - Kare Format #}}
+                <div class="product-item" data-product-id="{{ product_code }}">
+                    {{ if product_image }}
+                    <div class="product-image-container square-aspect-ratio hover-trigger">
+                        <img src="{{ product_image:permalink ?? product_image:url }}" class="product-image" alt="{{ product_name }}">
 
-                <div class="product-details p-3">
-                    {{# Ürün Kodu #}}
-                    {{ if product_code }}
-                    <span class="product-code text-uppercase text-muted small">Kod: {{ product_code }}</span>
-                    {{ /if }}
-
-                    {{# Ürün Adı #}}
-                    <h5 class="product-title mt-1 mb-2">{{ product_name }}</h5>
-
-                    {{# Ürün Açıklaması #}}
-                    {{ if product_description }}
-                    <p class="product-description small mb-3 text-secondary">{{ product_description | truncate:80 }}</p>
-                    {{ /if }}
-
-                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                        {{# Ürün Birimi #}}
-                        <div class="product-unit text-secondary small">
-                            Birim: {{ product_quantity }} Adet
+                        {{# Hover Ederken Görünen Detay Overlay #}}
+                        <div class="product-detail-overlay" data-bs-toggle="modal"
+                             data-bs-target="#productModal-{{ product_code }}"
+                             data-product-id="{{ product_code }}">
                         </div>
+                    </div>
+                    {{ else }}
+                    <div class="product-image-placeholder square-aspect-ratio d-flex align-items-center justify-content-center">
+                        <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
+                    </div>
+                    {{ /if }}
+
+                    <div class="product-details p-2 p-sm-3">
+                        {{# Ürün Kodu #}}
+                        {{ if product_code }}
+                        <span class="product-code text-uppercase text-muted small">Kod: {{ product_code }}</span>
+                        {{ /if }}
+
+                        {{# Ürün Adı #}}
+                        <h5 class="product-title mt-1 mb-2 fs-6">{{ product_name }}</h5>
 
                         {{# Ürün Fiyatı #}}
-                        <div class="product-price fs-5 fw-bold text-primary">{{ product_price }}</div>
+                        <div class="product-price fs-5 fw-bold text-primary">{{ product_price }} ₺</div>
+
+                        {{# Koliye Ekle ve Detay Butonları #}}
+                        <div class="d-flex gap-2 mt-2">
+                            <button class="btn btn-sm btn-primary add-to-cart-preview flex-grow-1"
+                                    data-product-id="{{ product_code }}"
+                                    data-product-name="{{ product_name }}"
+                                    data-product-price="{{ product_price | remove_right:" ₺" | trim }}">
+                            <i class="bi bi-cart-plus me-1"></i> Koliye Ekle
+                            </button>
+                            <button class="btn btn-sm btn-info show-product-details"
+                                    data-bs-toggle="modal"
+                                    data-product-name="{{ product_name }}"
+                                    data-bs-target="#productModal-{{ product_code }}"
+                                    data-product-id="{{ product_code }}">
+                                <i class="bi bi-info-circle"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                {{# Sepete Ekle Düğmesi - Fonksiyonel #}}
-                <div class="add-to-cart-container p-3">
-                    <div class="input-group">
-                        <input type="number" class="form-control quantity-input"
-                               min="1" value="1"
-                               data-product-id="{{ product_code }}"
-                               data-product-name="{{ product_name }}"
-                               data-product-price="{{ product_price | remove_right:" ₺" | trim }}">
-                        <button class="btn btn-primary add-to-cart"
-                                data-product-id="{{ product_code }}"
-                                data-product-name="{{ product_name }}"
-                                data-product-price="{{ product_price | remove_right:" ₺" | trim }}">
-                        <i class="bi bi-cart-plus me-1"></i> Sepete Ekle
-                        </button>
+        {{# Her ürün için ayrı modal #}}
+        <div class="modal fade" id="productModal-{{ product_code }}" tabindex="-1" aria-labelledby="productModalLabel-{{ product_code }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productModalLabel-{{ product_code }}">{{ product_name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                {{ if product_image }}
+                                <div class="border rounded p-2 mb-3 d-flex justify-content-center align-items-center" style="max-height: 300px;">
+                                    <img src="{{ product_image:permalink ?? product_image:url }}" class="img-fluid rounded" alt="{{ product_name }}" style="max-height: 280px; object-fit: contain;">
+                                </div>
+                                {{ else }}
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center p-4" style="height: 300px;">
+                                    <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
+                                </div>
+                                {{ /if }}
+                            </div>
+                            <div class="col-md-7">
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <th>Ürün Kodu</th>
+                                        <td>{{ product_code }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fiyat</th>
+                                        <td class="fs-5 fw-bold text-primary">{{ product_price }}</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                                {{ if product_description }}
+                                <div class="mt-3">
+                                    <h6>Ürün Açıklaması</h6>
+                                    <p>{{ product_description }}</p>
+                                </div>
+                                {{ /if }}
+
+                                {{# Eğer HTML detayları varsa göster #}}
+                                {{ if product_details }}
+                                <div class="mt-3 product-details-html">
+
+                                    {{ product_details }}
+                                </div>
+                                {{ /if }}
+
+                                <div class="mt-4">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">Miktar</span>
+                                        <input type="number" class="form-control modal-quantity-input"
+                                               min="1" value="1"
+                                               data-product-id="{{ product_code }}">
+                                        <button class="btn btn-primary modal-add-to-cart"
+                                                data-product-id="{{ product_code }}"
+                                                data-product-name="{{ product_name }}"
+                                                data-product-price="{{ product_price | remove_right:" ₺" | trim }}">
+                                        <i class="bi bi-cart-plus me-1"></i> Koliye Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,400 +131,9 @@
     </div>
 </div>
 
-{{# Sepet Modal #}}
-<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cartModalLabel">Sepetiniz</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
-            </div>
-            <div class="modal-body">
-                <div id="cart-items">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Ürün</th>
-                            <th>Miktar</th>
-                            <th>Birim Fiyat</th>
-                            <th>Toplam</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody id="cart-items-list">
-                        <!-- Sepet öğeleri buraya eklenecek -->
-                        </tbody>
-                    </table>
-                </div>
-                <div id="empty-cart-message" class="text-center p-4 d-none">
-                    <i class="bi bi-cart text-muted" style="font-size: 3rem;"></i>
-                    <p class="mt-3">Sepetiniz boş.</p>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <div>
-                    <strong>Toplam: <span id="cart-total">0.00</span> ₺</strong>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-secondary cart-continue-btn" data-bs-dismiss="modal">Alışverişe Devam Et</button>
-                    <button type="button" class="btn btn-primary cart-checkout-btn" id="checkout-btn">Sipariş Ver</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    /* Bootstrap buton stillerini açıkça belirtme */
-    .cart-continue-btn {
-        background-color: #6c757d !important;
-        border-color: #6c757d !important;
-        color: white !important;
-    }
-
-    .cart-continue-btn:hover {
-        background-color: #5a6268 !important;
-        border-color: #545b62 !important;
-    }
-
-    .cart-checkout-btn {
-        background-color: #0d6efd !important;
-        border-color: #0d6efd !important;
-        color: white !important;
-    }
-
-    .cart-checkout-btn:hover {
-        background-color: #0b5ed7 !important;
-        border-color: #0a58ca !important;
-    }
-
-    /* Tablo hücresi stilleri */
-    #cart-items-list td {
-        vertical-align: middle;
-    }
-
-    /* Miktar butonları */
-    #cart-items-list .input-group-sm {
-        width: 120px;
-    }
-
-    /* Modal gövde ve tablo stilleri */
-    #cartModal .modal-body {
-        max-height: 60vh;
-        overflow-y: auto;
-    }
-
-    #cartModal .table {
-        margin-bottom: 0;
-    }
-</style>
-
-{{# Custom CSS for Product Listing #}}
-<style>
-    .product-card {
-        transition: all 0.3s ease;
-        background-color: #fff;
-    }
-
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-    }
-
-    .product-image-container {
-        height: 220px;
-        overflow: hidden;
-        background-color: #f8f9fa;
-    }
-
-    .product-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .product-card:hover .product-image {
-        transform: scale(1.05);
-    }
-
-    .product-image-placeholder {
-        height: 220px;
-        background-color: #f8f9fa;
-    }
-
-    .product-title {
-        font-weight: 600;
-        line-height: 1.3;
-        color: #333;
-    }
-
-    .product-price {
-        color: #2b70e4;
-    }
-
-    .add-to-cart-container {
-        transition: all 0.3s ease;
-    }
-
-    .quantity-input {
-        max-width: 80px;
-    }
-
-    /* Sepet buton sayacı */
-    .cart-btn-badge {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        font-size: 10px;
-    }
-
-    @media (max-width: 768px) {
-        .product-image-container, .product-image-placeholder {
-            height: 180px;
-        }
-    }
-</style>
-
-{{# Bootstrap Icons ve Sepet Fonksiyonları için JavaScript #}}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Sepet öğelerini saklamak için
-        let cart = JSON.parse(localStorage.getItem('shopping_cart')) || [];
-        updateCartUI();
-
-        // Sepete ekle butonlarına olay dinleyici ekleme
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function() {
-                const productId = this.getAttribute('data-product-id');
-                const productName = this.getAttribute('data-product-name');
-                const productPrice = parseFloat(this.getAttribute('data-product-price'));
-                const quantityInput = this.parentElement.querySelector('.quantity-input');
-                const quantity = parseInt(quantityInput.value);
-
-                // Ürünün sepette olup olmadığını kontrol et
-                const existingItemIndex = cart.findIndex(item => item.id === productId);
-
-                if (existingItemIndex > -1) {
-                    // Ürün zaten sepette, miktarı güncelle
-                    cart[existingItemIndex].quantity += quantity;
-                } else {
-                    // Yeni ürün, sepete ekle
-                    cart.push({
-                        id: productId,
-                        name: productName,
-                        price: productPrice,
-                        quantity: quantity
-                    });
-                }
-
-                // Sepeti localStorage'da güncelle
-                localStorage.setItem('shopping_cart', JSON.stringify(cart));
-
-                // Sepet UI'ını güncelle
-                updateCartUI();
 
 
-                document.dispatchEvent(new CustomEvent('cartUpdated'));
 
-                // Sepet sayacını güncelle
-                updateCartBadge();
-
-
-                // Başarılı mesajı gösterme (isteğe bağlı)
-                showToast('Ürün sepete eklendi!');
-
-                // Sepet modalını göster (isteğe bağlı)
-                // new bootstrap.Modal(document.getElementById('cartModal')).show();
-            });
-        });
-
-
-        function updateCartBadge() {
-            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-            const cartBadges = document.querySelectorAll('.cart-count-badge');
-
-            cartBadges.forEach(badge => {
-                badge.textContent = cartCount > 0 ? cartCount : '';
-            });
-        }
-
-        // Sepet UI'ını güncelleme fonksiyonu
-        function updateCartUI() {
-            // Sepet içeriğini güncelle
-            const cartItemsList = document.getElementById('cart-items-list');
-            const emptyCartMessage = document.getElementById('empty-cart-message');
-            const cartItems = document.getElementById('cart-items');
-
-            if (cart.length === 0) {
-                // Sepet boş
-                emptyCartMessage.classList.remove('d-none');
-                cartItems.classList.add('d-none');
-            } else {
-                // Sepette ürünler var
-                emptyCartMessage.classList.add('d-none');
-                cartItems.classList.remove('d-none');
-
-                // Sepet öğelerini oluştur
-                cartItemsList.innerHTML = '';
-                let cartTotal = 0;
-
-                cart.forEach((item, index) => {
-                    const itemTotal = item.price * item.quantity;
-                    cartTotal += itemTotal;
-
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${item.name}</td>
-                        <td>
-                            <div class="input-group input-group-sm">
-                                <button class="btn btn-outline-secondary decrease-qty" data-index="${index}">-</button>
-                                <input type="number" class="form-control text-center cart-qty" value="${item.quantity}" min="1" data-index="${index}">
-                                <button class="btn btn-outline-secondary increase-qty" data-index="${index}">+</button>
-                            </div>
-                        </td>
-                        <td>${item.price.toFixed(2)} ₺</td>
-                        <td>${itemTotal.toFixed(2)} ₺</td>
-                        <td>
-                            <button class="btn btn-sm btn-danger remove-from-cart" data-index="${index}">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    `;
-
-                    cartItemsList.appendChild(row);
-                });
-
-                // Toplam tutarı güncelle
-                document.getElementById('cart-total').textContent = cartTotal.toFixed(2);
-
-                // Olay dinleyicileri ekle
-                // Miktar güncelleme için
-                document.querySelectorAll('.cart-qty').forEach(input => {
-                    input.addEventListener('change', updateCartItemQuantity);
-                });
-
-                // Artır/Azalt butonları için
-                document.querySelectorAll('.increase-qty').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        cart[index].quantity += 1;
-                        updateCart();
-                    });
-                });
-
-                document.querySelectorAll('.decrease-qty').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        if (cart[index].quantity > 1) {
-                            cart[index].quantity -= 1;
-                            updateCart();
-                        }
-                    });
-                });
-
-                // Kaldır butonları için
-                document.querySelectorAll('.remove-from-cart').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        cart.splice(index, 1);
-                        updateCart();
-                    });
-                });
-            }
-
-            // Eğer sayfa başlığında sepet düğmesi varsa
-            updateCartButton();
-        }
-
-        // Sepette miktar güncelleme
-        function updateCartItemQuantity() {
-            const index = parseInt(this.getAttribute('data-index'));
-            const newQuantity = parseInt(this.value);
-
-            if (newQuantity > 0) {
-                cart[index].quantity = newQuantity;
-                updateCart();
-            }
-        }
-
-        // Sepeti güncelleme
-        function updateCart() {
-            localStorage.setItem('shopping_cart', JSON.stringify(cart));
-            updateCartUI();
-        }
-
-        // Sepet butonunu güncelleme (navbar'da sepet butonu varsa)
-        function updateCartButton() {
-            const cartButton = document.querySelector('.cart-btn');
-            if (cartButton) {
-                const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-                const cartBadge = cartButton.querySelector('.cart-btn-badge');
-
-                if (cartCount > 0) {
-                    if (cartBadge) {
-                        cartBadge.textContent = cartCount;
-                    } else {
-                        const badge = document.createElement('span');
-                        badge.className = 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-btn-badge';
-                        badge.textContent = cartCount;
-                        cartButton.appendChild(badge);
-                    }
-                } else {
-                    if (cartBadge) {
-                        cartBadge.remove();
-                    }
-                }
-            }
-        }
-
-        // Sipariş ver butonu
-        document.getElementById('checkout-btn').addEventListener('click', function() {
-            // Burada sipariş işlemleri yapılacak
-            alert('Sipariş işlemi başlatılıyor...');
-            // AJAX ile sunucuya sipariş gönderme işlemi yapılabilir
-        });
-
-        // Toast mesajı gösterme (bildirim)
-        function showToast(message) {
-            // Eğer sayfada zaten bir toast container yoksa oluştur
-            let toastContainer = document.querySelector('.toast-container');
-            if (!toastContainer) {
-                toastContainer = document.createElement('div');
-                toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-                document.body.appendChild(toastContainer);
-            }
-
-            // Yeni toast oluştur
-            const toastEl = document.createElement('div');
-            toastEl.className = 'toast align-items-center text-white bg-success border-0';
-            toastEl.setAttribute('role', 'alert');
-            toastEl.setAttribute('aria-live', 'assertive');
-            toastEl.setAttribute('aria-atomic', 'true');
-
-            toastEl.innerHTML = `
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Kapat"></button>
-                </div>
-            `;
-
-            toastContainer.appendChild(toastEl);
-
-            const toast = new bootstrap.Toast(toastEl, {
-                animation: true,
-                autohide: true,
-                delay: 3000
-            });
-
-            toast.show();
-        }
-    });
-</script>
 {{ else }}
 <div class="alert alert-info">Henüz ürün eklenmemiş.</div>
 {{ /if }}

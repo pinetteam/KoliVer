@@ -1,0 +1,7 @@
+title: Harita
+fields:
+  -
+    handle: html_alan
+    field:
+      type: html
+      display: 'HTML Alan'

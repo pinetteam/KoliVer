@@ -38,12 +38,20 @@
 
 <style>
     .carousel-item img {
-        object-fit: cover;
-        height: 500px;
+        object-fit: cover; /* Resmi kırpmadan alanı dolduracak şekilde */
+        width: 100%;
+        height: auto; /* Sabit yükseklik yerine otomatik */
+        max-width: 100%; /* Taşmayı önlemek için */
     }
+
+    .carousel-item {
+        aspect-ratio: 16/9; /* İsteğe bağlı: tüm resimlerin aynı orana sahip olmasını sağlar */
+        overflow: hidden; /* Taşan resimleri kırpar */
+    }
+
     @media (max-width: 768px) {
-        .carousel-item img {
-            height: 300px;
+        .carousel-item {
+            aspect-ratio: 16/9; /* Mobil için daha kare bir oran kullanabilirsiniz */
         }
     }
 </style>

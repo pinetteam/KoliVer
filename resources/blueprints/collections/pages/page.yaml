@@ -1,4 +1,4 @@
-title: Page
+title: Sayfa
 tabs:
   main:
     display: Main
@@ -27,6 +27,7 @@ tabs:
             field:
               type: slug
               localizable: true
+              validate: 'max:200'
           -
             handle: parent
             field:
@@ -39,12 +40,6 @@ tabs:
           -
             handle: show_title
             field:
-              default: false
               type: toggle
               display: 'Show Title'
-              icon: toggle
               instructions: 'Toggle this to show the Title of the page in the header.'
-              listable: hidden
-              instructions_position: above
-              visibility: visible
-              hide_display: false

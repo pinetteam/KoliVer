@@ -1,4 +1,4 @@
-title: 'Page Builder'
+title: 'Sayfa Yapıcı'
 fields:
   -
     handle: blocks
@@ -51,3 +51,24 @@ fields:
               fields:
                 -
                   import: urun_listesi
+            harita:
+              display: Harita
+              icon: arrow-roadmap-path-flow
+              fields:
+                -
+                  import: harita
+            sayac:
+              display: Sayaç
+              fields:
+                -
+                  import: sayac
+            adimlar:
+              display: Adımlar
+              fields:
+                -
+                  import: adimlar
+            iyiligi_ulastir:
+              display: 'İyiliği Ulaştır'
+              fields:
+                -
+                  import: iyiligi_ulastir
